@@ -33,3 +33,60 @@ body {
   border: 1px solid var(--white-color);
   margin: 32px auto 52px;
 }
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.arrow {
+  background-color: transparent;
+  border: none;
+}
+
+.up span {
+  display: block;
+  border-left: 45px solid transparent;
+  border-right: 45px solid transparent;
+  border-bottom: 30px solid var(--white-color);
+}
+
+.down span {
+  display: block;
+  border-left: 45px solid transparent;
+  border-right: 45px solid transparent;
+  border-top: 30px solid var(--white-color);
+}
+
+.right span {
+  display: block;
+  border-top: 45px solid transparent;
+  border-bottom: 45px solid transparent;
+  border-left: 30px solid var(--white-color);
+}
+
+.left span {
+  display: block;
+  border-top: 45px solid transparent;
+  border-bottom: 45px solid transparent;
+  border-right: 30px solid var(--white-color);
+}
+
+.middle-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.status {
+  width: 100px;
+  height: 100px;
+  background-color: var(--white-color);
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
