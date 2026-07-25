@@ -143,18 +143,43 @@ setInterval(() => {
     render();
 }, 200);
 
+const directions = {
+    up:    { row: -1, col: 0, invalid: () => dir.row === 1 },
+    right: { row: 0, col: 1, invalid: () => dir.col === -1 },
+    down:  { row: 1, col: 0, invalid: () => dir.row === -1 },
+    left:  { row: 0, col: -1, invalid: () => dir.col === 1 },
+};
+
 up.addEventListener("click", () => {
-    dir = {row: -1, col: 0};
+    if (!directions.up.invalid()) dir = directions.up;
 });
 
 right.addEventListener("click", () => {
-    dir = {row: 0, col: 1};
+    if (!directions.right.invalid()) dir = directions.right;
 });
 
 down.addEventListener("click", () => {
-    dir = {row: 1, col: 0};
+    if (!directions.down.invalid()) dir = directions.down;
 });
 
 left.addEventListener("click", () => {
-    dir = {row: 0, col: -1};
+    if (!directions.left.invalid()) dir = directions.left;
+});
+
+document.addEventListener("keydown", (e) => {
+    const keyMap = {
+        ArrowUp: "up", w: "up", W: "up",
+        ArrowRight: "right", d: "right", D: "right",
+        ArrowDown: "down", s: "down", S: "down",
+        ArrowLeft: "left", a: "left", A: "left",
+    };
+
+    const action = keyMap[e.key];
+    if (!action) return;
+
+    e.preventDefault();
+
+    if (!directions[action].invalid()) {
+        dir = directions[action];
+    }
 });
