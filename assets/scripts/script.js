@@ -128,14 +128,14 @@ function checkWallCollision() {
 }
 
 function gameTick() {
+    const lastTail = {
+        ...snake[snake.length - 1]
+    };
+
     moveSnake();
 
     if (checkFoodCollision()) {
-        const tail = {
-            ...snake[snake.length - 1]
-        };
-
-        snake.push(tail);
+         snake.push(lastTail);
 
         randomFoodPosition();
 
@@ -206,6 +206,8 @@ function restartGame() {
         <h2>Score</h2>
         <p id="score">0</p>
     `;
+
+    status.style.color = "#111";
 
     scoreElem =
         document.getElementById("score");
