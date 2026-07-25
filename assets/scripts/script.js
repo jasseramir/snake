@@ -135,6 +135,11 @@ setInterval(() => {
         scoreElem.textContent = score;
     }
 
+    if (checkBodyCollision() || checkWallCollision()) {
+        gameOver();
+        return;
+    }
+
     render();
 }, 200);
 
