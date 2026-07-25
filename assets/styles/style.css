@@ -2,7 +2,7 @@
 
 :root {
   --body-color: #111;
-  --white-color: #fff;
+  --white-color: #ccc;
   --blue-color: #00f;
   
   --body-font: "Pixelify Sans", sans-serif;
@@ -19,7 +19,6 @@ body {
   display: flex;
   justify-content: center;
   background-color: var(--body-color);
-  color: var(--white-color);
   font-family: var(--body-font);
 }
 
@@ -39,7 +38,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .arrow {
@@ -77,14 +76,14 @@ body {
 
 .middle-controls {
   display: flex;
-  gap: 8px;
+  gap: 12px;
 }
 
 .status {
   width: 100px;
   height: 100px;
   background-color: var(--white-color);
-  color: #111;
+  color: var(--body-color);
   display: flex;
   flex-direction: column;
   justify-content: center;
