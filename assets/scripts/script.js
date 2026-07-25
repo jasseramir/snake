@@ -38,6 +38,38 @@ function clearCanvas() {
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 }
 
+function render() {
+    clearCanvas();
+    drawSnake();
+    drawFood();
+}
+
+function checkWallCollision() {
+    const head = snake[0];
+
+    return (
+        head.row < 0 ||
+        head.row >= rows ||
+        head.col < 0 ||
+        head.col >= cols
+    );
+}
+
+function checkBodyCollision() {
+    const head = snake[0];
+
+    for (let i = 1; i < snake.length; i++) {
+        if (
+            head.row === snake[i].row &&
+            head.col === snake[i].col
+        ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 function checkFoodCollision() {
     return (
         snake[0].row === food.row &&
@@ -103,9 +135,7 @@ setInterval(() => {
         scoreElem.textContent = score;
     }
 
-    clearCanvas();
-    drawSnake();
-    drawFood();
+    render();
 }, 200);
 
 up.addEventListener("click", () => {
