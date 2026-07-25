@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+
+:root {
+  --body-color: #111;
+  --white-color: #fff;
+  --blue-color: #00f;
+  
+  --body-font: "Pixelify Sans", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  background-color: var(--body-color);
+  color: var(--white-color);
+  font-family: var(--body-font);
+}
+
+.game-title {
+  color: var(--blue-color);
+  text-align: center;
+  margin-top: 48px;
+}
+
+.game-canvas {
+  border: 1px solid var(--white-color);
+  margin: 32px auto 52px;
+}
