@@ -17,15 +17,15 @@ const left = document.getElementById("left");
 
 const ctx = canvas.getContext("2d");
 
-let food = {};
-randomFoodPosition();
-
 const snake = [
     {
         row: Math.floor(rows / 2),
         col: Math.floor(cols / 2),
     }
 ];
+
+let food = {};
+randomFoodPosition();
 
 let dir = {row: 0, col: 1};
 
@@ -134,7 +134,7 @@ function moveSnake() {
 
 clearCanvas();
 
-setInterval(() => {
+const gameLoop = setInterval(() => {
     moveSnake();
 
     if (checkFoodCollision()) {
