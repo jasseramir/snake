@@ -76,6 +76,11 @@ function drawSnake() {
 }
 
 function moveSnake() {
+    for (let i = snake.length - 1; i > 0; i--) {
+        snake[i].row = snake[i - 1].row;
+        snake[i].col = snake[i - 1].col;
+    }
+
     snake[0].row += dir.row;
     snake[0].col += dir.col;
 }
