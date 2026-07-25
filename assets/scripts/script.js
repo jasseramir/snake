@@ -44,6 +44,21 @@ function render() {
     drawFood();
 }
 
+function gameOver() {
+    clearInterval(gameLoop);
+
+    ctx.fillStyle = "red";
+    ctx.font = "32px 'Pixelify Sans'";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.fillText(
+        "Game Over",
+        canvas.width / 2,
+        canvas.height / 2
+    );
+}
+
 function checkWallCollision() {
     const head = snake[0];
 
