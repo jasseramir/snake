@@ -135,7 +135,7 @@ function gameTick() {
     moveSnake();
 
     if (checkFoodCollision()) {
-         snake.push(lastTail);
+        snake.push(lastTail);
 
         randomFoodPosition();
 
