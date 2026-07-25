@@ -91,7 +91,14 @@ setInterval(() => {
     moveSnake();
 
     if (checkFoodCollision()) {
+        const tail = {
+            ...snake[snake.length - 1]
+        }
+
+        snake.push(tail);
+
         randomFoodPosition();
+
         score++;
         scoreElem.textContent = score;
     }
