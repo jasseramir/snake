@@ -17,6 +17,9 @@ const left = document.getElementById("left");
 
 const ctx = canvas.getContext("2d");
 
+let food = {};
+randomFoodPosition();
+
 const snake = [
     {
         row: Math.floor(rows / 2),
@@ -26,9 +29,37 @@ const snake = [
 
 let dir = {row: 0, col: 1};
 
+const scoreElem = document.getElementById("score");
+let score = 0;
+scoreElem.textContent = score;
+
 function clearCanvas() {
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, canvas.width, canvas.height)
+}
+
+function checkFoodCollision() {
+    return (
+        snake[0].row === food.row &&
+        snake[0].col === food.col
+    );
+}
+
+function randomFoodPosition() {
+    food = {
+        row: Math.floor(Math.random() * rows),
+        col: Math.floor(Math.random() * cols),
+    };
+}
+
+function drawFood() {
+    ctx.fillStyle = '#ffd700';
+    ctx.fillRect(
+        food.col * cellSize,
+        food.row * cellSize,
+        cellSize,
+        cellSize
+    )
 }
 
 function drawSnake() {
@@ -54,8 +85,15 @@ clearCanvas();
 setInterval(() => {
     moveSnake();
 
+    if (checkFoodCollision()) {
+        randomFoodPosition();
+        score++;
+        scoreElem.textContent = score;
+    }
+
     clearCanvas();
     drawSnake();
+    drawFood();
 }, 200);
 
 up.addEventListener("click", () => {
