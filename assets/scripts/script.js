@@ -207,7 +207,7 @@ function restartGame() {
         <p id="score">0</p>
     `;
 
-    status.style.color = "#111";
+    status.style.color = "#ccc";
 
     scoreElem =
         document.getElementById("score");
