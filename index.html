@@ -1,44 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#12141b" />
+    <meta
+      name="description"
+      content="A flat, dark-mode Snake game built with vanilla JavaScript, SVG graphics and synthesized sound effects."
+    />
     <title>Snake</title>
 
-    <link rel="stylesheet" href="assets/styles/style.css">
-</head>
-<body>
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles/style.css" />
+  </head>
+
+  <body>
     <main class="game">
-        <h1 class="game-title">Snake Game</h1>
+      <header class="head">
+        <h1 class="game-title">Snake</h1>
 
-        <canvas class="game-canvas" id="gameCanvas"></canvas>
+        <div class="head-right">
+          <button
+            class="icon-btn"
+            id="mute"
+            type="button"
+            data-muted="false"
+            aria-label="Mute sound"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 9v6h4l5 4V5L8 9H4z" />
+              <path class="waves" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" />
+              <path class="slash" d="M17 9l5 6M22 9l-5 6" />
+            </svg>
+          </button>
+          <span class="pill">Best <span id="best">0</span></span>
+        </div>
+      </header>
 
-        <section class="controls">
-            <button class="arrow up" id="up">
-                <span></span>
-            </button>
+      <div class="board">
+        <!-- All the game art is SVG. Colors come from the CSS tokens in style.css -->
+        <svg
+          class="game-svg"
+          id="gameSvg"
+          viewBox="0 0 640 640"
+          role="img"
+          aria-label="Snake game board"
+        >
+          <!-- Board -->
+          <rect class="board-bg" width="640" height="640" />
+          <path class="board-tiles" id="boardTiles" />
 
-            <div class="middle-controls">
-                <button class="arrow left" id="left">
-                    <span></span>
-                </button>
+          <!-- Food: a square -->
+          <g id="food">
+            <rect class="food-square" x="-10" y="-10" width="20" height="20" rx="4" />
+          </g>
 
-                <div class="status" id="status">
-                    <h2>Score</h2>
-                    <p id="score"></p>
-                </div>
+          <!-- Snake body: one square per cell, rebuilt by the script every tick -->
+          <path class="snake-body" id="bodyPath" />
 
-                <button class="arrow right" id="right">
-                    <span></span>
-                </button>
-            </div>
+          <!-- Snake head: a square with two eyes, drawn facing right and rotated by the script -->
+          <g id="head">
+            <rect class="snake-head" x="-14" y="-14" width="28" height="28" rx="5" />
+            <circle class="eye" cx="6" cy="-7" r="3.2" />
+            <circle class="eye" cx="6" cy="7" r="3.2" />
+          </g>
 
-            <button class="arrow down" id="down">
-                <span></span>
-            </button>
-        </section>
+          <!-- Eating effects and the start / pause / game over screens -->
+          <g id="fx"></g>
+          <g id="overlay"></g>
+        </svg>
+      </div>
+
+      <p class="hint">Arrows, WASD, or swipe. The edges wrap around. M mutes.</p>
+
+      <section class="controls" aria-label="Controls">
+        <button class="arrow up" id="up" type="button" aria-label="Up">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 19V5M5 12l7-7 7 7" />
+          </svg>
+        </button>
+
+        <button class="arrow left" id="left" type="button" aria-label="Left">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <button class="status" id="status" type="button" data-state="idle">
+          <span class="status-label" id="statusLabel">Score</span>
+          <span class="status-value" id="score">0</span>
+          <svg class="status-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 11a8.1 8.1 0 0 0-15.5-2m-.5-4v4h4" />
+            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+          </svg>
+        </button>
+
+        <button class="arrow right" id="right" type="button" aria-label="Right">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </button>
+
+        <button class="arrow down" id="down" type="button" aria-label="Down">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 5v14M19 12l-7 7-7-7" />
+          </svg>
+        </button>
+      </section>
+
+      <p class="sr-only" id="live" role="status" aria-live="polite"></p>
     </main>
 
     <script src="assets/scripts/script.js"></script>
-</body>
+  </body>
 </html>

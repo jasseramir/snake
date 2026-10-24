@@ -1,146 +1,416 @@
-@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
-
+/*=============== TOKENS ===============*/
 :root {
-  --body-color: #111;
-  --white-color: #ccc;
-  --blue-color: #00f;
-  
-  --body-font: "Pixelify Sans", sans-serif;
+  --bg: #12141b;
+  --card: #1a1d27;
+  --soft: #262a36;
+  --soft-h: #2e3340;
+  --txt: #f3f4f6;
+  --sub: #b8bdc9;
+  --accent: #8e98ff;
+  --lav: #e6c8f5;
+  --sky: #bde6fb;
+  --mint: #a6ebc9;
+  --rose: #f4a8c7;
+  --lav-d: #c9a2e3;
+  --mint-d: #5fcb98;
+  --navy: #1a1d27;
+  --board-a: #14161e;
+  --board-b: #181b24;
+
+  --font: "Plus Jakarta Sans", sans-serif;
+  color-scheme: dark;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  box-shadow: none !important;
+  text-shadow: none !important;
 }
 
+/*=============== BASE ===============*/
 body {
-  height: 100vh;
-  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   justify-content: center;
-  background-color: var(--body-color);
-  font-family: var(--body-font);
+  align-items: center;
+  padding: 16px;
+  background-color: var(--bg);
+  color: var(--txt);
+  font-family: var(--font);
   overscroll-behavior: none;
 }
 
-.game-title {
-  color: var(--blue-color);
-  text-align: center;
-  margin-top: 48px;
+button {
+  font: inherit;
+  border: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.game-canvas {
-  border: 1px solid var(--white-color);
-  margin: 32px auto 52px;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
+:focus-visible {
+  outline: 2px solid var(--lav);
+  outline-offset: 2px;
 }
 
-.controls {
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/*=============== LAYOUT ===============*/
+/* The width follows the viewport height, so the board and controls
+   fit on one screen without scrolling. */
+.game {
+  width: min(100%, 26rem, max(17.5rem, calc(100vh - 348px)));
+  width: min(100%, 26rem, max(17.5rem, calc(100dvh - 348px)));
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.head {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.game-title {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--accent);
+}
+
+.pill {
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  background-color: var(--lav);
+  color: var(--navy);
+}
+
+.head-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background-color: var(--soft);
+  color: var(--txt);
+  transition:
+    transform 0.15s,
+    background-color 0.15s;
+}
+
+.icon-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon-btn .slash {
+  display: none;
+}
+
+.icon-btn[data-muted="true"] .waves {
+  display: none;
+}
+
+.icon-btn[data-muted="true"] .slash {
+  display: inline;
+}
+
+.icon-btn:active {
+  transform: scale(0.92);
+}
+
+.board {
+  padding: 10px;
+  border-radius: 24px;
+  background-color: var(--card);
+}
+
+.game-svg {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
   touch-action: none;
 }
 
-.middle-controls {
-  display: flex;
+.hint {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--sub);
+}
+
+/*=============== CONTROLS ===============*/
+.controls {
+  display: grid;
+  grid-template-columns: 56px 76px 56px;
+  grid-template-rows: 56px 76px 56px;
+  gap: 8px;
+  justify-content: center;
   align-items: center;
-  gap: 12px;
+  margin-top: 14px;
+}
+
+.arrow {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  background-color: var(--soft);
+  color: var(--txt);
+  transition:
+    transform 0.15s,
+    background-color 0.15s;
+}
+
+.arrow svg,
+.status-icon {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.arrow svg {
+  width: 24px;
+  height: 24px;
+}
+
+.arrow.up {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+}
+
+.arrow.left {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.arrow.right {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.arrow.down {
+  grid-column: 2;
+  grid-row: 3;
+  justify-self: center;
 }
 
 .status {
-  width: 100px;
-  height: 100px;
-  background-color: #1a1a1a;
-  color: var(--white-color);
+  grid-column: 2;
+  grid-row: 2;
+  width: 76px;
+  height: 76px;
+  border-radius: 24px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  box-shadow:
-    inset 4px 4px 0 0 rgba(255, 255, 255, 0.12),
-    inset -4px -4px 0 0 rgba(0, 0, 0, 0.55);
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.status:active {
-  box-shadow:
-    inset -3px -3px 0 0 rgba(255, 255, 255, 0.12),
-    inset 3px 3px 0 0 rgba(0, 0, 0, 0.55);
-}
-
-/* ---------- Pixel-art D-pad buttons ---------- */
-
-.arrow {
-  --px: 6px;
-  
-  width: 64px;
-  height: 64px;
-  padding: 0;
-  border: none;
-  border-radius: 4px;
-  background-color: #1a1a1a;
-  display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow:
-    inset 4px 4px 0 0 rgba(255, 255, 255, 0.12),
-    inset -4px -4px 0 0 rgba(0, 0, 0, 0.55);
-  cursor: pointer;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-  -webkit-user-select: none;
+  gap: 2px;
+  background-color: var(--lav);
+  color: var(--navy);
+  transition: transform 0.15s;
+}
+
+.status-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.status-value {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.status-icon {
+  display: none;
+  width: 22px;
+  height: 22px;
+}
+
+.status[data-state="over"] .status-value {
+  display: none;
+}
+
+.status[data-state="over"] .status-icon {
+  display: block;
 }
 
 .arrow:active {
-  box-shadow:
-    inset -3px -3px 0 0 rgba(255, 255, 255, 0.12),
-    inset 3px 3px 0 0 rgba(0, 0, 0, 0.55);
+  transform: scale(0.94);
 }
 
-.arrow span {
-  position: relative;
-  display: block;
-  width: calc(var(--px) * 5);
-  height: calc(var(--px) * 5);
+.status:active {
+  transform: scale(0.95);
 }
 
-.arrow span::before {
-  content: "";
-  position: absolute;
-  left: calc(var(--px) * 2);
-  top: var(--px);
-  width: var(--px);
-  height: var(--px);
-  background-color: var(--white-color);
-  box-shadow:
-    calc(var(--px) * -1) var(--px) 0 0 var(--white-color),
-    0 var(--px) 0 0 var(--white-color),
-    var(--px) var(--px) 0 0 var(--white-color),
-    calc(var(--px) * -2) calc(var(--px) * 2) 0 0 var(--white-color),
-    calc(var(--px) * -1) calc(var(--px) * 2) 0 0 var(--white-color),
-    0 calc(var(--px) * 2) 0 0 var(--white-color),
-    var(--px) calc(var(--px) * 2) 0 0 var(--white-color),
-    calc(var(--px) * 2) calc(var(--px) * 2) 0 0 var(--white-color);
+@media (hover: hover) {
+  .icon-btn:hover,
+  .arrow:hover {
+    background-color: var(--soft-h);
+  }
 }
 
-.arrow.right span {
-  transform: rotate(90deg);
+/*=============== GAME ART (SVG) ===============*/
+.board-bg {
+  fill: var(--board-a);
 }
 
-.arrow.down span {
-  transform: rotate(180deg);
+.board-tiles {
+  fill: var(--board-b);
 }
 
-.arrow.left span {
-  transform: rotate(270deg);
+.snake-body {
+  fill: var(--lav);
+  stroke: var(--lav);
+  stroke-width: 4;
+  stroke-linejoin: round;
+}
+
+.snake-head {
+  fill: var(--sky);
+}
+
+.eye {
+  fill: var(--navy);
+}
+
+.food-square {
+  fill: var(--mint);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+/* Overlays */
+.overlay-in {
+  animation: fade 0.25s ease-out;
+}
+
+.ov-dim {
+  fill: var(--bg);
+}
+
+.ov-pill {
+  fill: var(--lav);
+}
+
+.ov-text {
+  font-family: var(--font);
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+/* Eating effects */
+.fx-ring {
+  fill: none;
+  stroke: var(--mint);
+  stroke-width: 3;
+  animation: ring 0.5s ease-out forwards;
+}
+
+.fx-dot {
+  animation: spark 0.55s ease-out forwards;
+}
+
+.fx-plus {
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 800;
+  text-anchor: middle;
+  fill: var(--txt);
+  animation: rise 0.7s ease-out forwards;
+}
+
+@keyframes pulse {
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes ring {
+  from {
+    transform: scale(0.5);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+@keyframes spark {
+  from {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(var(--dx), var(--dy)) scale(0.2);
+    opacity: 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-24px);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrow,
+  .status,
+  .icon-btn {
+    transition: none;
+  }
+
+  .food-square,
+  .overlay-in {
+    animation: none;
+  }
+
 }
